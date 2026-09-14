@@ -31,7 +31,7 @@ This repository is a production-grade, editorial-aesthetic portfolio template de
 ## 3. Project Directory Map
 
 ```text
-astro_porfolio/
+astro_portfolio/
 ├── .agents/
 │   ├── scripts/
 │   │   └── artifact-manager.mjs   # Node utility for listing, removing, and consolidating artifact ordering

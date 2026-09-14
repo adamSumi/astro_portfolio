@@ -20,6 +20,19 @@
 
   let { artifacts = [] }: { artifacts: ArtifactItem[] } = $props();
 
+  const baseUrl = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
+
+  function resolveUrl(url?: string | null): string {
+    if (!url) return '';
+    if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('data:')) {
+      return url;
+    }
+    if (url.startsWith('/') && !url.startsWith(`${baseUrl}/`)) {
+      return `${baseUrl}${url}`;
+    }
+    return url;
+  }
+
   let selectedTag = $state('All');
   let searchQuery = $state('');
   let activeArtifact = $state<ArtifactItem | null>(null);
@@ -89,7 +102,7 @@
     }
     // Direct video (.mp4, .webm, or local path)
     if (url.match(/\.(mp4|webm|ogg)($|\?)/i) || url.startsWith('/videos/')) {
-      return { type: 'video', src: url };
+      return { type: 'video', src: resolveUrl(url) };
     }
     return { type: 'none', src: url };
   }
@@ -99,11 +112,12 @@
     return markdown
       // Markdown Images: ![alt](url)
       .replace(/!\[(.*?)\]\((.*?)\)/g, (_match, alt, src) => {
+        const resolvedSrc = resolveUrl(src);
         const captionHtml = alt
           ? `<figcaption class="py-2.5 px-4 text-center text-xs font-mono text-stone-600 bg-white/95 border-t border-stone-200/80 flex items-center justify-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-stone-400 inline-block"></span>${alt}</figcaption>`
           : '';
         return `<figure class="my-6 rounded-xl overflow-hidden border border-stone-200/90 bg-stone-50 shadow-sm transition-all hover:shadow-md">
-          <img src="${src}" alt="${alt || 'Artifact collateral visual'}" class="w-full h-auto object-cover max-h-[440px] block" loading="lazy" />
+          <img src="${resolvedSrc}" alt="${alt || 'Artifact collateral visual'}" class="w-full h-auto object-cover max-h-[440px] block" loading="lazy" />
           ${captionHtml}
         </figure>`;
       })
@@ -212,7 +226,7 @@
           >
             {#if artifact.previewImage}
               <img
-                src={artifact.previewImage}
+                src={resolveUrl(artifact.previewImage)}
                 alt={artifact.title}
                 class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
                 loading="lazy"
@@ -393,7 +407,7 @@
                   controls
                   playsinline
                   preload="metadata"
-                  poster={activeArtifact.previewImage}
+                  poster={resolveUrl(activeArtifact.previewImage)}
                   class="w-full h-full object-contain bg-black"
                 >
                   <track kind="captions" />
@@ -401,7 +415,7 @@
                 </video>
               {:else if activeArtifact.previewImage}
                 <img
-                  src={activeArtifact.previewImage}
+                  src={resolveUrl(activeArtifact.previewImage)}
                   alt={activeArtifact.title}
                   class="w-full h-full object-cover object-center"
                 />
@@ -410,7 +424,7 @@
           {:else if modalHeroImage}
             <div class="relative rounded-xl overflow-hidden border border-stone-200 shadow-md bg-stone-100 max-h-96 group/preview">
               <img
-                src={modalHeroImage}
+                src={resolveUrl(modalHeroImage)}
                 alt={activeArtifact.title}
                 class="w-full h-full object-cover object-center"
               />
@@ -475,7 +489,7 @@
                     aria-label={`View collateral visual ${idx + 1}`}
                   >
                     <img
-                      src={imgUrl}
+                      src={resolveUrl(imgUrl)}
                       alt={`${activeArtifact.title} collateral ${idx + 1}`}
                       class="w-full h-44 object-cover object-center group-hover/asset:scale-105 transition-transform duration-500"
                       loading="lazy"
