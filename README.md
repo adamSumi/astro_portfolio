@@ -61,7 +61,15 @@ node .agents/scripts/artifact-manager.mjs consolidate
 node .agents/scripts/artifact-manager.mjs remove <slug>
 ```
 
-For AI agents and detailed technical documentation, see [AGENTS.md](./AGENTS.md).
+## 🚀 Deployment
+
+This static portfolio can be deployed anywhere with zero runtime dependencies. See [**DEPLOY.md**](./DEPLOY.md) for step-by-step guides on:
+- **Cloudflare Pages** (Recommended: 100% free, unlimited bandwidth, 1-click custom domain SSL)
+- **Vercel** (Zero-config Astro import, preview branches)
+- **GitHub Pages** (Built-in automated deployment via included GitHub Actions workflow)
+- **Docker & Self-Hosting** (Pre-configured multi-stage `Dockerfile` and `nginx.conf`)
+
+For AI agents and complete architectural specifications, see [**AGENTS.md**](./AGENTS.md).
 
 ---
 

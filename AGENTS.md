@@ -171,6 +171,9 @@ npm run build
 ```
 Compiles static HTML and optimized client assets into `dist/`. Always run this before pushing changes or opening pull requests.
 
+### Deployment Operations
+Complete deployment workflows (Cloudflare Pages, Vercel, GitHub Pages, Docker container) and custom domain configurations are documented in [`DEPLOY.md`](./DEPLOY.md).
+
 ---
 
 ## 7. Design System & Coding Conventions
