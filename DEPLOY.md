@@ -93,6 +93,11 @@ Vercel offers zero-config Astro detection and preview URLs for every pull reques
 A pre-configured GitHub Actions workflow is included at [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml).
 
 ### Step-by-Step Setup:
+> [!IMPORTANT]
+> **Private Repositories & GitHub Pages**:
+> GitHub Pages is free for **public** repositories. For **private** repositories, GitHub Pages requires a **GitHub Pro** (or Team/Enterprise) subscription.
+> If your repository is private and you want a 100% free deployment without paying for GitHub Pro, use **Cloudflare Pages** or **Vercel**, both of which connect to private GitHub repos for free.
+
 1. In your GitHub repository, navigate to **Settings** > **Pages**.
 2. Under **Build and deployment** > **Source**, select **GitHub Actions**.
 3. Push any commit to the `main` branch:
