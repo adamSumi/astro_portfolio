@@ -18,11 +18,31 @@ function parseFrontmatter(content) {
   const data = {};
 
   const lines = rawYaml.split(/\r?\n/);
+  let currentKey = null;
+
   for (const line of lines) {
+    const listItemMatch = line.match(/^\s*-\s*(.*)$/);
+    if (listItemMatch && currentKey) {
+      let itemVal = listItemMatch[1].trim();
+      if ((itemVal.startsWith('"') && itemVal.endsWith('"')) || (itemVal.startsWith("'") && itemVal.endsWith("'"))) {
+        itemVal = itemVal.slice(1, -1);
+      }
+      if (!Array.isArray(data[currentKey])) {
+        data[currentKey] = [];
+      }
+      data[currentKey].push(itemVal);
+      continue;
+    }
+
     const kv = line.match(/^([a-zA-Z0-9_-]+):\s*(.*)$/);
     if (kv) {
       const key = kv[1].trim();
+      currentKey = key;
       let val = kv[2].trim();
+      if (val === '') {
+        data[key] = [];
+        continue;
+      }
       if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
         val = val.slice(1, -1);
       } else if (val === 'true') {

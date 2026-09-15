@@ -33,6 +33,11 @@ npm run dev
 ```
 Open [http://localhost:4321](http://localhost:4321) in your browser.
 
+> [!TIP]
+> **Server Management:**
+> - Press `Ctrl + C` in your terminal to stop the server.
+> - If a background process ever lingers on port 4321, stop it with: `npx astro dev stop` (or force-restart with `npm run dev -- --force`).
+
 ### 3. Type Check & Validation
 ```bash
 npm run check
@@ -42,13 +47,28 @@ npm run check
 ```bash
 npm run build
 ```
-Generates a static deployment bundle in `dist/`.
+Generates a static deployment bundle in `dist/`. All dev-only editor controls and API routes are automatically tree-shaken and excluded.
 
 ---
 
 ## 📂 Managing Case Study Artifacts
 
-Case studies are stored in `src/data/artifacts/*.md`. You can manage them manually or using the built-in CLI:
+### Option 1: In-Browser Artifact Editor (Recommended in Dev)
+
+When running locally (`npm run dev`), a visual editorial suite is accessible directly on the Exhibition Wall:
+
+1. Click the **"Edit Gallery"** button next to the search bar to activate Edit Mode.
+2. **`+ Create Artifact`**: Opens the editorial modal to create a new case study. Automatically assigned `order: 1`, shifting downstream artifacts contiguously.
+3. **Pencil Icon (Edit)**: Opens any card in the WYSIWYG editor with live media preview, tag chip adder, and dual-tabbed Markdown editor (`Write Markdown` vs `Live Preview`).
+4. **Trash Icon (Delete)**: Prompts for confirmation, deletes the markdown file, cleans up unshared media in `public/previews/` and `public/videos/`, and re-consolidates remaining order contiguously (`1, 2, 3...`).
+5. **Eye Icon (Visibility)**: Toggle `hidden: true/false` to keep draft case studies unpublished from production builds.
+6. **Local Media Auto-Import**:
+   - **Pasting Local Paths:** Paste any local file path (e.g. `~/Downloads/hero.jpg` or `~/Downloads/video.mp4`) into the image/video inputs or inline markdown—the backend automatically copies it to `public/previews/` or `public/videos/` on save.
+   - **Native File Pickers:** Click **"Choose File"** (cover image), **"Upload Video"** (MP4/WebM), or **"Upload Images"** (collateral) to import directly from your native Finder dialog.
+
+### Option 2: CLI & Terminal Scripts
+
+You can also inspect and manage markdown case studies (`src/data/artifacts/*.md`) directly from your terminal:
 
 ```bash
 # List all artifacts with their media type and metrics

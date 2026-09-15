@@ -6,8 +6,11 @@ import WorkGallery from '../components/WorkGallery.svelte';
 // Query artifacts collection using Astro content layer
 const rawArtifacts = await getCollection('artifacts');
 
+const isDev = import.meta.env.DEV;
+
 // Format and serialize artifact items to pass as clean props into the Svelte island
 const artifacts = rawArtifacts
+  .filter((item) => isDev || !item.data.hidden)
   .map((item) => ({
     id: item.id,
     title: item.data.title,
@@ -19,6 +22,7 @@ const artifacts = rawArtifacts
     showDate: item.data.showDate ?? false,
     order: item.data.order ?? item.data.priority ?? null,
     featured: item.data.featured ?? false,
+    hidden: item.data.hidden ?? false,
     previewImage: item.data.previewImage ?? '',
     mediaType: item.data.mediaType ?? 'image',
     videoUrl: item.data.videoUrl ?? '',

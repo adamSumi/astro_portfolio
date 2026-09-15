@@ -20,6 +20,18 @@ export default defineConfig({
   integrations: [svelte()],
 
   vite: {
-    plugins: [tailwindcss()]
+    plugins: [
+      tailwindcss(),
+      {
+        name: 'artifact-dev-server',
+        apply: 'serve',
+        configureServer(server) {
+          server.middlewares.use(async (req, res, next) => {
+            const { artifactDevMiddleware } = await import('./src/dev/artifactDevMiddleware.mjs');
+            return artifactDevMiddleware(req, res, next);
+          });
+        }
+      }
+    ]
   }
 });

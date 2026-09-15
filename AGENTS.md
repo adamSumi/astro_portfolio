@@ -159,6 +159,17 @@ npm run dev
 ```
 Serves the site locally at `http://localhost:4321`. Hot module replacement (HMR) applies instantly across Astro and Svelte files.
 
+### In-Browser Dev Artifact Editor
+When running in dev mode (`npm run dev`):
+- A Connect REST middleware (`src/dev/artifactDevMiddleware.mjs`) is mounted automatically inside Vite at `/api/artifact` (with aliases `/api/edit_mode`, `/api/update`, `/api/remove`).
+- An **"Edit Gallery"** toggle button appears next to the search bar on the Exhibition Wall.
+- Clicking it enables **Edit Mode**, providing:
+  - **`+ Create Artifact`**: Opens the WYSIWYG editorial modal to create a new markdown case study (assigned `order: 1` by default with automatic order shifting).
+  - **Pencil Icon (Edit)** on each card: Opens the editor pre-loaded with the case study's frontmatter, media, and markdown body. Supports live markdown preview.
+  - **Trash Icon (Delete)** on each card: Prompts for confirmation, deletes the markdown file, cleans up unshared media in `/previews/` and `/videos/`, and re-indexes remaining artifact orders contiguously.
+  - **Eye Icon (Visibility)** on each card: Toggles `hidden: true/false` (draft state) without publishing to production builds.
+- **Production Isolation**: Vite completely tree-shakes and strips all editor controls and middleware during `npm run build`, ensuring zero editor UI or API routes in static production deployments (GitHub Pages).
+
 ### Type-Checking & Lint Diagnostics
 ```bash
 npm run check

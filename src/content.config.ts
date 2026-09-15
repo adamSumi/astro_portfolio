@@ -15,6 +15,7 @@ const artifacts = defineCollection({
     order: z.number().optional(),
     priority: z.number().optional(),
     featured: z.boolean().default(false),
+    hidden: z.boolean().default(false),
     previewImage: z.string().optional(),
     metrics: z.string().optional(),
     mediaType: z.enum(['image', 'video', 'document']).default('image'),
