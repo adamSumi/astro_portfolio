@@ -627,7 +627,7 @@
       <!-- Exhibition Counter -->
       <div class="text-xs font-mono text-stone-500 flex items-center gap-2 shrink-0">
         <span class="w-2 h-2 rounded-full bg-stone-700"></span>
-        Displaying <span class="text-stone-900 font-semibold">{filteredArtifacts.length}</span> of {localArtifacts.length} curated case studies
+        Displaying <span class="text-stone-900 font-semibold">{filteredArtifacts.length}</span> {filteredArtifacts.length === 1 ? 'case study' : 'case studies'}
       </div>
     </div>
 
